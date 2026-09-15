@@ -6,7 +6,7 @@ Each feed appends checked bytes to a bounded pending buffer. Handshake steps com
 
 The application drains both output and events after every feed. It writes output in order and serializes its own input/update messages onto that same transport. Do not call feed concurrently. Ready supplies the server metadata; the client negotiates canonical BGRx wire pixels and exports RGB snapshots. Clipboard and names are raw byte arrays: applications choose their text policy. Keyboard values are X11 keysyms, not operating-system keycodes. Pointer coordinates are framebuffer coordinates.
 
-`snapshot()` returns an owned copy of the latest framebuffer. Events report operations, not historical pixel snapshots: if one feed contains multiple frames, the snapshot is the final frame. Cursor is a separate overlay with alpha; it does not change stored desktop pixels. DesktopSize is only accepted as the final rectangle with zero origin.
+`snapshot()` returns an owned copy of the latest framebuffer, one 0xRRGGBB Int per pixel. Events report operations, not historical pixel snapshots: if one feed contains multiple frames, the snapshot is the final frame. Cursor is a separate overlay with alpha; it does not change stored desktop pixels. DesktopSize is only accepted as the final rectangle with zero origin.
 
 NeedMore is internal flow control for partial streams. Public feed accepts ordinary partial input without failing; malformed or over-limit input poisons the session. finish validates EOF and closes the session. Create a new session after an error, not a retry on the same object. Queue limits also protect applications that forget to drain events/output.
 

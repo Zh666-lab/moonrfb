@@ -33,4 +33,3 @@ function connect({host='127.0.0.1',port,password,allowNone=false,feedChunkBytes=
   return {client,socket,done};
 }
 module.exports={rfb,ints,connect};
-

@@ -24,7 +24,7 @@ fn new_session() -> @rfb.Client raise @rfb.RfbError {
 }
 ```
 
-每次收到网络数据，转换为 0..255 的 `Array[Int]` 并调用 `session.feed(bytes)`；随后把 `take_output()` 的字节写回连接，消费 `take_events()`。Ready 后发送 `update_request`，UpdateComplete 后用 `snapshot()` 取 RGB 画面。结束输入时调用 `finish()`，截断协议会报错。不要把密码硬编码在真实程序里。
+每次收到网络数据，转换为 0..255 的 `Array[Int]` 并调用 `session.feed(bytes)`；随后把 `take_output()` 的字节写回连接，消费 `take_events()`。Ready 后发送 `update_request`，UpdateComplete 后用 `snapshot()` 取每个像素为 0xRRGGBB 整数的画面。结束输入时调用 `finish()`，截断协议会报错。不要把密码硬编码在真实程序里。
 
 完整公开签名见 `pkg.generated.mbti`；状态机和适配约定见 `docs/architecture.md`。
 
@@ -61,12 +61,12 @@ python tools/verify.py # 完整检查；可显式 --defer-native --defer-rust
 
 | 对标或测量 | 已取得的本地结果 |
 |---|---|
-| MoonBit 单元/边界测试 | 26 项，wasm-gc / wasm / js 通过；native 严格检查通过，运行交由 CI |
+| MoonBit 单元/边界测试 | 26 项，wasm-gc / wasm / js 通过；native 在 Linux CI 构建与测试通过 |
 | noVNC 1.7.0 原版模块 | DES 1,000 组、Raw 250 组/41,505 像素、CopyRect 100 组/400 像素，差异为 0 |
 | 独立 RFC 6143 TRLE 编码语料 | 442 组有效样本/32,555 像素；另有 6 组畸形输入，全部通过 |
 | 640×480 Raw 解码 | 本地 JS debug，预热 5 次、测量 30 次：中位 6.75 ms，P95 8.01 ms，45.49 Mpix/s |
 
-基准环境：Windows x64、Node 24.14.0、i7-13650HX。包含 RGB 输出分配，不与别的软件做不同环境的速度排名；RSS 只是进程内存，**不是解码峰值内存**。测量快照见 `docs/evidence/`，可复现实验在 `tools/`。CI 会另外编译原始 Rust DES 比较 1,000 组，并运行四目标测试；以实际 Actions 结果为准。
+基准环境：Windows x64、Node 24.14.0、i7-13650HX。包含 RGB 输出分配，不与别的软件做不同环境的速度排名；RSS 只是进程内存，**不是解码峰值内存**。测量快照见 `docs/evidence/`，可复现实验在 `tools/`。CI 已编译原始 Rust DES 比较 1,000 组（零差异），四目标构建及测试全部通过。首个完整绿灯运行：34988527766；最终发布提交请查看 Actions。
 
 ## 移植与许可
 

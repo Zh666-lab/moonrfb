@@ -1,0 +1,6 @@
+{
+  "reference": "unmodified vnc-rs 0.5.3 DES source compiled by rustc",
+  "cases": 1000,
+  "bytes": 16000,
+  "mismatches": 0
+}

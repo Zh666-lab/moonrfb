@@ -78,3 +78,5 @@
 
 ## 2026-09-15 实施状态更新
 用户已确认选题并授权验证身份后发布；核心、三个 TCP 示例及本地对标已实现。最终范围为 Raw/CopyRect/TRLE，不含 ZRLE。对标实际采用 noVNC 1.7.0 原版模块、原始 Rust DES 和独立 RFC 编码器，未开展 TigerVNC GUI 互操作测试；不申报峰值内存或完整压缩编码支持。前述计划不是完成结果，具体实测见 docs/evidence。
+
+发布前复查：2026-09-15 23:27（UTC+8），官方 API 的 vnc / rfb / trle 三项均返回空数组。原始 JSON 保存在工作区研究目录 prepublication-search.json；此时本项目尚未发布 MoonCakes。

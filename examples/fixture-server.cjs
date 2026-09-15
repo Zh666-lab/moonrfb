@@ -51,4 +51,3 @@ async function start({repeatRequests=false,onInput=()=>{},onRequest=(s)=>s.end(r
   return {port:server.address().port,received,failure,close:()=>new Promise(resolve=>{for(const s of sockets)s.destroy();server.close(resolve);})};
 }
 module.exports={start,init,raw,frame,rectangle,u16,u32};
-
