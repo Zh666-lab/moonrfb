@@ -21,7 +21,7 @@ pub fn update_request(x : Int,y : Int,width : Int,height : Int,incremental : Boo
 ///| Advertise only decoders implemented by this release.
 pub fn set_encodings() -> Array[Int] {
   let b = [2,0,0,5]
-  for e in [16,1,0,-239,-223] { put32(b,e) }
+  for e in [15,1,0,-239,-223] { put32(b,e) }
   b
 }
 ///|
