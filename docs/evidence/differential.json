@@ -1,0 +1,18 @@
+{
+  "reference": "noVNC 1.7.0 unmodified modules",
+  "seed": "0x42673",
+  "auth": {
+    "cases": 1000,
+    "bytes": 16000
+  },
+  "raw": {
+    "cases": 250,
+    "pixels": 41505
+  },
+  "copyRect": {
+    "cases": 100,
+    "framebufferPixels": 400
+  },
+  "mismatches": 0,
+  "limitations": "Not a full noVNC GUI interoperability test; Raw equivalent RGB/BGR wire formats; CopyRect display is a test double; TRLE tested separately against generated RFC fixtures."
+}

@@ -1,0 +1,8 @@
+{
+  "reference": "independently generated RFC 6143 TRLE fixtures",
+  "seed": 6143,
+  "cases": 442,
+  "pixels": 32555,
+  "malformedCases": 6,
+  "mismatches": 0
+}

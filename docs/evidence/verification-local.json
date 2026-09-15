@@ -1,0 +1,196 @@
+{
+  "utc": "2026-09-15T15:18:21.283982+00:00",
+  "commands": [
+    {
+      "command": [
+        "moon",
+        "version",
+        "--all"
+      ],
+      "exit": 0,
+      "log": "verify-00.log"
+    },
+    {
+      "command": [
+        "moon",
+        "fmt",
+        "--check"
+      ],
+      "exit": 0,
+      "log": "verify-01.log"
+    },
+    {
+      "command": [
+        "moon",
+        "check",
+        "--target",
+        "wasm-gc",
+        "--deny-warn"
+      ],
+      "exit": 0,
+      "log": "verify-02.log"
+    },
+    {
+      "command": [
+        "moon",
+        "build",
+        "--target",
+        "wasm-gc",
+        "--deny-warn"
+      ],
+      "exit": 0,
+      "log": "verify-03.log"
+    },
+    {
+      "command": [
+        "moon",
+        "test",
+        "--target",
+        "wasm-gc",
+        "--deny-warn"
+      ],
+      "exit": 0,
+      "log": "verify-04.log"
+    },
+    {
+      "command": [
+        "moon",
+        "check",
+        "--target",
+        "wasm",
+        "--deny-warn"
+      ],
+      "exit": 0,
+      "log": "verify-05.log"
+    },
+    {
+      "command": [
+        "moon",
+        "build",
+        "--target",
+        "wasm",
+        "--deny-warn"
+      ],
+      "exit": 0,
+      "log": "verify-06.log"
+    },
+    {
+      "command": [
+        "moon",
+        "test",
+        "--target",
+        "wasm",
+        "--deny-warn"
+      ],
+      "exit": 0,
+      "log": "verify-07.log"
+    },
+    {
+      "command": [
+        "moon",
+        "check",
+        "--target",
+        "js",
+        "--deny-warn"
+      ],
+      "exit": 0,
+      "log": "verify-08.log"
+    },
+    {
+      "command": [
+        "moon",
+        "build",
+        "--target",
+        "js",
+        "--deny-warn"
+      ],
+      "exit": 0,
+      "log": "verify-09.log"
+    },
+    {
+      "command": [
+        "moon",
+        "test",
+        "--target",
+        "js",
+        "--deny-warn"
+      ],
+      "exit": 0,
+      "log": "verify-10.log"
+    },
+    {
+      "command": [
+        "moon",
+        "check",
+        "--target",
+        "native",
+        "--deny-warn"
+      ],
+      "exit": 0,
+      "log": "verify-11.log"
+    },
+    {
+      "command": [
+        "node",
+        "examples/capture.cjs"
+      ],
+      "exit": 0,
+      "log": "verify-12.log"
+    },
+    {
+      "command": [
+        "node",
+        "examples/input.cjs"
+      ],
+      "exit": 0,
+      "log": "verify-13.log"
+    },
+    {
+      "command": [
+        "node",
+        "examples/replay.cjs"
+      ],
+      "exit": 0,
+      "log": "verify-14.log"
+    },
+    {
+      "command": [
+        "node",
+        "tools/differential.cjs"
+      ],
+      "exit": 0,
+      "log": "verify-15.log"
+    },
+    {
+      "command": [
+        "node",
+        "tools/trle-corpus.cjs"
+      ],
+      "exit": 0,
+      "log": "verify-16.log"
+    },
+    {
+      "command": [
+        "node",
+        "tools/benchmark.cjs"
+      ],
+      "exit": 0,
+      "log": "verify-17.log"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit": 0,
+      "log": "verify-18.log"
+    }
+  ],
+  "deferred": [
+    "native build/test: no local C compiler; required CI job",
+    "compiled original Rust DES oracle: no local rustc; required CI JS job"
+  ],
+  "passed": true,
+  "toolchain": "moon 0.1.20260904 (94521db 2026-09-04) ~\\Desktop\\\u5de5\u4f5c\u533a\\\u968f\u7528\u968f\u6e05\\moonsuncalc-research\\toolchain-current\\bin\\moon.exe\nmoonc v0.10.12+1634b282e (2026-09-07) ~\\Desktop\\\u5de5\u4f5c\u533a\\\u968f\u7528\u968f\u6e05\\moonsuncalc-research\\toolchain-current\\bin\\moonc.exe\nmoonrun 0.1.20260904 (94521db 2026-09-04) ~\\Desktop\\\u5de5\u4f5c\u533a\\\u968f\u7528\u968f\u6e05\\moonsuncalc-research\\toolchain-current\\bin\\moonrun.exe\n\nFeature flags enabled: rr_moon_mod,rr_moon_pkg\n"
+}

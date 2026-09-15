@@ -1,0 +1,3 @@
+# AI assistance
+
+Codex assisted with scope research, the source port, tests, examples, documentation and build/release operations. This is disclosed rather than presented as fully manual implementation. Upstream code and licenses are separately identified in THIRD_PARTY.md. Generated code is not evidence of correctness: acceptance uses executable tests, fixed noVNC modules, an original Rust DES oracle and an independent TRLE encoder. Unsupported features and unrun checks are explicitly distinguished from passing checks. The participant remains responsible for reviewing and maintaining the submitted project.

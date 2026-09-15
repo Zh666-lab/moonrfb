@@ -1,0 +1,124 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "Zh666-lab/moonrfb"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn client(options? : Options) -> Client raise RfbError
+
+pub fn client_cut_text(Array[Int]) -> Array[Int] raise RfbError
+
+pub fn decode_raw(Array[Int], PixelFormat, Int, Int) -> Array[Int] raise RfbError
+
+pub fn decode_trle(Array[Int], PixelFormat, Int, Int) -> Array[Int] raise RfbError
+
+pub fn default_options() -> Options
+
+pub fn framebuffer(Int, Int, max_pixels? : Int) -> Framebuffer raise RfbError
+
+pub fn key_event(UInt, Bool) -> Array[Int]
+
+pub fn pointer_event(Int, Int, Int) -> Array[Int] raise RfbError
+
+pub fn rgb32() -> PixelFormat
+
+pub fn set_encodings() -> Array[Int]
+
+pub fn set_pixel_format(PixelFormat) -> Array[Int] raise RfbError
+
+pub fn update_request(Int, Int, Int, Int, Bool) -> Array[Int] raise RfbError
+
+pub fn vnc_response(Array[Int], Array[Int]) -> Array[Int] raise RfbError
+
+// Errors
+pub(all) suberror RfbError {
+  NeedMore
+  Invalid(String)
+  Limit(String)
+  Unsupported(Int)
+  AuthenticationFailed
+} derive(Eq, @debug.Debug)
+
+// Types and methods
+pub struct Client {
+  // private fields
+}
+pub fn Client::feed(Self, Array[Int]) -> Unit raise RfbError
+pub fn Client::finish(Self) -> Unit raise RfbError
+pub fn Client::is_failed(Self) -> Bool
+pub fn Client::is_ready(Self) -> Bool
+pub fn Client::size(Self) -> (Int, Int) raise RfbError
+pub fn Client::snapshot(Self) -> Array[Int] raise RfbError
+pub fn Client::take_events(Self) -> Array[Event]
+pub fn Client::take_output(Self) -> Array[Int]
+
+pub(all) struct Cursor {
+  hotspot_x : Int
+  hotspot_y : Int
+  width : Int
+  height : Int
+  pixels : Array[Int]
+  alpha : Array[Int]
+} derive(Eq, @debug.Debug)
+
+pub(all) enum Event {
+  Ready(Screen)
+  Painted(Rect)
+  Copied(Rect, Int, Int)
+  Resized(Int, Int)
+  CursorChanged(Cursor)
+  Bell
+  Clipboard(Array[Int])
+  UpdateComplete
+} derive(Eq, @debug.Debug)
+
+pub struct Framebuffer {
+  // private fields
+}
+pub fn Framebuffer::copy_rect(Self, Rect, Int, Int) -> Unit raise RfbError
+pub fn Framebuffer::paint(Self, Rect, Array[Int]) -> Unit raise RfbError
+pub fn Framebuffer::resize(Self, Int, Int) -> Unit raise RfbError
+pub fn Framebuffer::size(Self) -> (Int, Int)
+pub fn Framebuffer::snapshot(Self) -> Array[Int]
+
+pub(all) struct Options {
+  password : Array[Int]?
+  allow_none : Bool
+  shared : Bool
+  max_pixels : Int
+  max_buffer : Int
+  max_text : Int
+} derive(@debug.Debug)
+
+pub(all) struct PixelFormat {
+  bits : Int
+  depth : Int
+  big_endian : Bool
+  red_max : Int
+  green_max : Int
+  blue_max : Int
+  red_shift : Int
+  green_shift : Int
+  blue_shift : Int
+} derive(Eq, @debug.Debug)
+pub fn PixelFormat::validate(Self) -> Unit raise RfbError
+
+pub(all) struct Rect {
+  x : Int
+  y : Int
+  width : Int
+  height : Int
+} derive(Eq, @debug.Debug)
+
+pub(all) struct Screen {
+  width : Int
+  height : Int
+  format : PixelFormat
+  name : Array[Int]
+} derive(Eq, @debug.Debug)
+
+// Type aliases
+
+// Traits
