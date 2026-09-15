@@ -39,7 +39,15 @@ fn trle_pixels(r : Reader,f : PixelFormat,w : Int,h : Int) -> Array[Int] raise R
         packed_tile(r,palette,tw,th)
       } else if mode == 127 {
         packed_tile(r,palette,tw,th)
-      } else { raise Unsupported(mode) }
+      } else if mode == 128 {
+        rle_tile(r,f,[],tw*th)
+      } else if mode == 129 {
+        if palette.length() < 2 { raise Invalid("missing reused palette") }
+        rle_tile(r,f,palette,tw*th)
+      } else if mode >= 130 {
+        palette = Array::makei(mode-128,_ => read_pixel(r,f,true))
+        rle_tile(r,f,palette,tw*th)
+      } else { raise Invalid("reserved TRLE subencoding") }
       for y in 0..<th { for x in 0..<tw { out[(ty+y)*w+tx+x] = tile[y*tw+x] } }
       tx += tw
     }
@@ -55,3 +63,33 @@ pub fn decode_trle(data : Array[Int],format : PixelFormat,width : Int,height : I
   if r.pos != data.length() { raise Invalid("trailing TRLE bytes") }
   out
 }
+///|
+fn run_length(r : Reader,remaining : Int) -> Int raise RfbError {
+  let mut length = 1
+  while true {
+    let b = r.u8()
+    if b > remaining - length { raise Invalid("TRLE run exceeds tile") }
+    length += b
+    if b != 255 { break }
+  }
+  length
+}
+///|
+fn rle_tile(r : Reader,f : PixelFormat,palette : Array[Int],count : Int) -> Array[Int] raise RfbError {
+  let out = []
+  while out.length() < count {
+    let (color,length) = if palette.is_empty() {
+      let color = read_pixel(r,f,true)
+      (color,run_length(r,count-out.length()))
+    } else {
+      let control = r.u8()
+      let index = control & 127
+      if index >= palette.length() { raise Invalid("palette index") }
+      let length = if (control & 128) != 0 {run_length(r,count-out.length())} else {1}
+      (palette[index],length)
+    }
+    for _ in 0..<length { out.push(color) }
+  }
+  out
+}
+
