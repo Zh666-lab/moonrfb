@@ -61,3 +61,37 @@ fn read_screen(r : Reader,opt : Options) -> Screen raise RfbError {
   if n < 0 || n > opt.max_text { raise Limit("desktop name") }
   { width,height,format,name:r.take(n) }
 }
+///| One handshake transition; caller commits only after the entire transition parses.
+fn handshake_step(r : Reader,phase : Phase,opt : Options) -> (Phase,Array[Int],Screen?) raise RfbError {
+  match phase {
+    Version => { let minor = parse_version(r); (Security(minor),banner(minor),None) }
+    Security(minor) => {
+      let kind = choose_security(r,minor,opt)
+      let out = if minor == 3 {[]} else {[kind]}
+      if kind == 2 { (Challenge(minor),out,None) }
+      else if minor == 8 { (SecurityResult(minor),out,None) }
+      else { out.push(if opt.shared {1} else {0}); (Init,out,None) }
+    }
+    Challenge(minor) => {
+      let challenge = r.take(16)
+      match opt.password {
+        Some(p) => (SecurityResult(minor),vnc_response(p,challenge),None)
+        None => raise AuthenticationFailed
+      }
+    }
+    SecurityResult(minor) => {
+      let result = r.i32()
+      if result != 0 {
+        if minor == 8 {
+          let n = r.i32()
+          if n < 0 || n > opt.max_text { raise Limit("authentication reason") }
+          ignore(r.take(n))
+        }
+        raise AuthenticationFailed
+      }
+      (Init,[if opt.shared {1} else {0}],None)
+    }
+    Init => { let screen = read_screen(r,opt); (Running,[],Some(screen)) }
+    _ => raise Invalid("not in handshake")
+  }
+}

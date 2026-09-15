@@ -11,3 +11,18 @@ test "security fails closed by default" {
     e => assert_eq(e, AuthenticationFailed)
   } noraise { _ => fail("accepted no authentication") }
 }
+test "3.3 and 3.7 none have no security result" {
+  for minor in [3,7] {
+    let bytes = if minor == 3 {[0,0,0,1]} else {[1,1]}
+    let (phase,out,_) = handshake_step(Reader::new(bytes),Security(minor),{..default_options(),allow_none:true})
+    assert_eq(phase,Init)
+    assert_eq(out,if minor == 3 {[1]} else {[1,1]})
+  }
+}
+test "3.8 VNC challenge then security result" {
+  let opt = {..default_options(),password:Some([112,97,115,115])}
+  let (phase,response,_) = handshake_step(Reader::new(Array::make(16,0)),Challenge(8),opt)
+  assert_eq(phase,SecurityResult(8)); assert_eq(response.length(),16)
+  let (phase,out,_) = handshake_step(Reader::new([0,0,0,0]),phase,opt)
+  assert_eq(phase,Init); assert_eq(out,[1])
+}
