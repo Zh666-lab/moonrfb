@@ -1,0 +1,9 @@
+{
+  "name": "moonrfb-validation",
+  "private": true,
+  "scripts": {
+    "examples": "node examples/capture.cjs && node examples/input.cjs && node examples/replay.cjs",
+    "differential": "node tools/differential.cjs"
+  },
+  "devDependencies": { "@novnc/novnc": "1.7.0" }
+}
