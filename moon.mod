@@ -11,3 +11,5 @@ description = "Sans-I/O VNC/RFB client engine ported from Rust vnc-rs: negotiati
 keywords = [ "vnc", "rfb", "remote-desktop", "protocol" ]
 
 preferred_target = "wasm-gc"
+
+repository = "https://github.com/Zh666-lab/moonrfb"
