@@ -48,3 +48,10 @@ pub fn decode_raw(data : Array[Int],format : PixelFormat,width : Int,height : In
   if r.pos != data.length() { raise Invalid("trailing raw bytes") }
   pixels
 }
+///| CopyRect has memmove semantics even when source and destination overlap.
+pub fn Framebuffer::copy_rect(self : Framebuffer,dest : Rect,source_x : Int,source_y : Int) -> Unit raise RfbError {
+  check_rect(dest,self.width,self.height)
+  check_rect({..dest,x:source_x,y:source_y},self.width,self.height)
+  let saved = Array::makei(dest.width*dest.height,i => self.pixels[(source_y+i/dest.width)*self.width+source_x+i%dest.width])
+  self.paint(dest,saved)
+}
