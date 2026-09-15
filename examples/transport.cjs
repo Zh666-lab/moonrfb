@@ -4,7 +4,8 @@ const net = require('node:net');
 const path = require('node:path');
 const rfb = require(path.join(__dirname, '../_build/js/debug/build/bridge/bridge.js'));
 const ints = bytes => Int32Array.from(bytes);
-function connect({host='127.0.0.1',port,password,allowNone=false,onEvent=()=>{}}) {
+function connect({host='127.0.0.1',port,password,allowNone=false,feedChunkBytes=65536,onEvent=()=>{}}) {
+  if(!Number.isSafeInteger(feedChunkBytes)||feedChunkBytes<1)throw new Error('invalid feed chunk limit');
   const client = rfb.create(allowNone,ints(Buffer.from(password ?? '', 'utf8')),password !== undefined);
   const socket = net.createConnection({host,port});
   let completed = false;
@@ -13,12 +14,14 @@ function connect({host='127.0.0.1',port,password,allowNone=false,onEvent=()=>{}}
     socket.on('error',reject);
     socket.on('data',chunk=> {
       try {
-        const error = rfb.feed(client,ints(chunk));
+        for(let offset=0;offset<chunk.length;offset+=feedChunkBytes) {
+        const error = rfb.feed(client,ints(chunk.subarray(offset,offset+feedChunkBytes)));
         const output = rfb.outgoing(client);
         if(output.length) socket.write(Buffer.from(output));
         const events = rfb.events(client);
         for(const event of events) onEvent(event,{client,socket,rfb});
         if(error) throw new Error(error);
+        }
       } catch(e) {socket.destroy(e);}
     });
     socket.on('end',()=> {
@@ -30,3 +33,4 @@ function connect({host='127.0.0.1',port,password,allowNone=false,onEvent=()=>{}}
   return {client,socket,done};
 }
 module.exports={rfb,ints,connect};
+

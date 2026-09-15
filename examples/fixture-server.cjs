@@ -9,7 +9,7 @@ const init=(w=2,h=2)=>Buffer.from([...u16(w),...u16(h),...format,...u32(7),...Bu
 const rectangle=(x,y,w,h,encoding,payload)=>[...u16(x),...u16(y),...u16(w),...u16(h),...u32(encoding),...payload];
 const frame=rects=>Buffer.from([0,0,...u16(rects.length),...rects.flat()]);
 const raw=frame([rectangle(0,0,2,2,0,[0,0,255,0,0,255,0,0,255,0,0,0,255,255,255,0])]);
-async function start({onInput=()=>{},onRequest=(s)=>s.end(raw)}={}) {
+async function start({repeatRequests=false,onInput=()=>{},onRequest=(s)=>s.end(raw)}={}) {
   const sockets=new Set(); const received=[];
   let rejectFailure;
   const failure=new Promise((_,reject)=>{rejectFailure=reject;});
@@ -40,7 +40,7 @@ async function start({onInput=()=>{},onRequest=(s)=>s.end(raw)}={}) {
             const packet=Buffer.from(buffer.subarray(0,n));received.push(packet);
             if(tag===0)assert.deepEqual([...packet.subarray(4)],format);
             onInput(packet,socket);
-            if(tag===3&&!requested){requested=true;onRequest(socket);}
+            if(tag===3&&(!requested||repeatRequests)){requested=true;Promise.resolve(onRequest(socket)).catch(e=>{rejectFailure(e);socket.destroy();});}
           }
           buffer=buffer.subarray(n);
         }
@@ -51,3 +51,4 @@ async function start({onInput=()=>{},onRequest=(s)=>s.end(raw)}={}) {
   return {port:server.address().port,received,failure,close:()=>new Promise(resolve=>{for(const s of sockets)s.destroy();server.close(resolve);})};
 }
 module.exports={start,init,raw,frame,rectangle,u16,u32};
+
