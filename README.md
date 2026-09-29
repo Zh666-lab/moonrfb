@@ -56,7 +56,8 @@ node tools/differential.cjs
 node tools/trle-corpus.cjs
 node tools/upstream-differential.cjs # 需要 rustc，编译原版 Rust DES
 node tools/benchmark.cjs
-python tools/check-moonc-version.py`npython tools/verify.py # 完整检查；可显式 --defer-native --defer-rust
+python tools/check-moonc-version.py
+python tools/verify.py # 完整检查；可显式 --defer-native --defer-rust
 ```
 
 | 对标或测量 | 已取得的本地结果 |
