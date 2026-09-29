@@ -144,3 +144,9 @@ fn read_pixel(
     f.blue_max
   (red << 16) | (green << 8) | blue
 }
+
+///|
+pub extend PixelFormat with Eq::{equal, not_equal}
+
+///|
+pub extend PixelFormat with @debug.Debug::{to_repr}

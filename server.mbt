@@ -148,3 +148,15 @@ fn server_message(
     tag => raise Unsupported(tag)
   }
 }
+
+///|
+pub extend Cursor with Eq::{equal, not_equal}
+
+///|
+pub extend Cursor with @debug.Debug::{to_repr}
+
+///|
+pub extend Event with Eq::{equal, not_equal}
+
+///|
+pub extend Event with @debug.Debug::{to_repr}

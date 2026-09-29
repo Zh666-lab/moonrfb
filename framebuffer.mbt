@@ -146,3 +146,9 @@ pub fn Framebuffer::copy_rect(
   })
   self.paint(dest, saved)
 }
+
+///|
+pub extend Rect with Eq::{equal, not_equal}
+
+///|
+pub extend Rect with @debug.Debug::{to_repr}

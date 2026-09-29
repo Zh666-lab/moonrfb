@@ -173,3 +173,12 @@ fn handshake_step(
     _ => raise Invalid("not in handshake")
   }
 }
+
+///|
+pub extend Screen with Eq::{equal, not_equal}
+
+///|
+pub extend Screen with @debug.Debug::{to_repr}
+
+///|
+pub extend Options with @debug.Debug::{to_repr}

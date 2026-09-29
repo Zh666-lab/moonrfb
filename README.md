@@ -30,7 +30,7 @@ fn new_session() -> @rfb.Client raise @rfb.RfbError {
 
 ## 三个可运行示例
 
-需要 MoonBit 工具链及 Node.js 24；示例仅连接自行启动的 127.0.0.1 随机端口服务端。
+需要 MoonBit 工具链（moonc >= 0.10.14）及 Node.js 24；示例仅连接自行启动的 127.0.0.1 随机端口服务端。
 
 ```sh
 moon build --target js --deny-warn
@@ -56,7 +56,7 @@ node tools/differential.cjs
 node tools/trle-corpus.cjs
 node tools/upstream-differential.cjs # 需要 rustc，编译原版 Rust DES
 node tools/benchmark.cjs
-python tools/verify.py # 完整检查；可显式 --defer-native --defer-rust
+python tools/check-moonc-version.py`npython tools/verify.py # 完整检查；可显式 --defer-native --defer-rust
 ```
 
 | 对标或测量 | 已取得的本地结果 |

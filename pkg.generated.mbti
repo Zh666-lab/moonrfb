@@ -40,6 +40,9 @@ pub(all) suberror RfbError {
   Unsupported(Int)
   AuthenticationFailed
 } derive(Eq, @debug.Debug)
+pub fn RfbError::equal(Self, Self) -> Bool
+pub fn RfbError::not_equal(Self, Self) -> Bool
+pub fn RfbError::to_repr(Self) -> @debug.Repr
 
 // Types and methods
 pub struct Client {
@@ -62,6 +65,9 @@ pub(all) struct Cursor {
   pixels : Array[Int]
   alpha : Array[Int]
 } derive(Eq, @debug.Debug)
+pub fn Cursor::equal(Self, Self) -> Bool
+pub fn Cursor::not_equal(Self, Self) -> Bool
+pub fn Cursor::to_repr(Self) -> @debug.Repr
 
 pub(all) enum Event {
   Ready(Screen)
@@ -73,6 +79,9 @@ pub(all) enum Event {
   Clipboard(Array[Int])
   UpdateComplete
 } derive(Eq, @debug.Debug)
+pub fn Event::equal(Self, Self) -> Bool
+pub fn Event::not_equal(Self, Self) -> Bool
+pub fn Event::to_repr(Self) -> @debug.Repr
 
 pub struct Framebuffer {
   // private fields
@@ -91,6 +100,7 @@ pub(all) struct Options {
   max_buffer : Int
   max_text : Int
 } derive(@debug.Debug)
+pub fn Options::to_repr(Self) -> @debug.Repr
 
 pub(all) struct PixelFormat {
   bits : Int
@@ -103,6 +113,9 @@ pub(all) struct PixelFormat {
   green_shift : Int
   blue_shift : Int
 } derive(Eq, @debug.Debug)
+pub fn PixelFormat::equal(Self, Self) -> Bool
+pub fn PixelFormat::not_equal(Self, Self) -> Bool
+pub fn PixelFormat::to_repr(Self) -> @debug.Repr
 pub fn PixelFormat::validate(Self) -> Unit raise RfbError
 
 pub(all) struct Rect {
@@ -111,6 +124,9 @@ pub(all) struct Rect {
   width : Int
   height : Int
 } derive(Eq, @debug.Debug)
+pub fn Rect::equal(Self, Self) -> Bool
+pub fn Rect::not_equal(Self, Self) -> Bool
+pub fn Rect::to_repr(Self) -> @debug.Repr
 
 pub(all) struct Screen {
   width : Int
@@ -118,6 +134,9 @@ pub(all) struct Screen {
   format : PixelFormat
   name : Array[Int]
 } derive(Eq, @debug.Debug)
+pub fn Screen::equal(Self, Self) -> Bool
+pub fn Screen::not_equal(Self, Self) -> Bool
+pub fn Screen::to_repr(Self) -> @debug.Repr
 
 // Type aliases
 

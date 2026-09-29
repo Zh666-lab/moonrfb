@@ -23,6 +23,8 @@ jobs:
           bash "$RUNNER_TEMP/moon-install.sh"
           echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
       - run: moon version --all
+      - name: Enforce minimum MoonC version
+        run: python tools/check-moonc-version.py
       - run: moon fmt --check
       - run: moon check --target ${{ matrix.target }} --deny-warn
       - run: moon build --target ${{ matrix.target }} --deny-warn

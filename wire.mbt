@@ -84,3 +84,9 @@ fn checked_bytes(data : Array[Int]) -> Array[Int] raise RfbError {
   }
   data.copy()
 }
+
+///|
+pub extend RfbError with Eq::{equal, not_equal}
+
+///|
+pub extend RfbError with @debug.Debug::{to_repr}
