@@ -1,3 +1,8 @@
+## 0.1.1 - 2026-09-30
+
+- Align the published package with the acceptance CI and moonc >= 0.10.14 requirement.
+- Add requirement-by-requirement acceptance documentation and compiler version validation.
+
 # Changelog
 
 ## 0.1.0
